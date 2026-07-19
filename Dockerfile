@@ -64,7 +64,6 @@ RUN mkdir -p /home/piuser /home/piuser/.ssh \
 
 ENV HOME=/home/piuser
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

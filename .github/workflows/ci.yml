@@ -51,7 +51,16 @@ jobs:
   build-podman:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
+
+      # Podman has no gha cache-from/cache-to integration, so cache its storage dir directly.
+      - name: Cache Podman storage
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/containers/storage
+          key: podman-storage-${{ runner.os }}-${{ hashFiles('Dockerfile') }}
+          restore-keys: |
+            podman-storage-${{ runner.os }}-
 
       - name: Build Podman image
         run: podman build --secret id=mise_asc,src=./mise-release.asc -t pi-less-yolo:latest .
